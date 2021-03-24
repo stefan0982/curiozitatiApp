@@ -10,11 +10,24 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/art": "^1.2.0",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.9.3",
+    "@react-navigation/stack": "^5.14.3",
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "react": "16.13.1",
+    "react-content-loader": "^6.0.2",
     "react-native": "0.63.4",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-progress": "^1.1.1",
+    "react-native-indicator": "^1.2.2",
+    "react-native-progress": "^4.1.2",
+    "react-native-reanimated": "^2.0.0",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^2.18.1",
     "react-native-share": "^5.1.0",
+    "react-native-svg": "^12.1.0",
     "react-native-view-shot": "^3.1.2"
   },
   "devDependencies": {
