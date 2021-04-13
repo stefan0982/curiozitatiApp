@@ -11,7 +11,6 @@ import {
   Alert,
   StyleSheet,
 }                                         from 'react-native';
-import InfiniteFlatList                   from './components/InfiniteFlatList';
 import MainScreen
                                           from './components/screens/MainScreen';
 import { NavigationContainer }            from '@react-navigation/native';

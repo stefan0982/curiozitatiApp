@@ -1,18 +1,15 @@
-import React, { Component }                                from 'react';
-import { FlatList, Text, View, ActivityIndicator, Button } from 'react-native';
-import { contentful }                                      from './api/contentful';
-import axios                                               from 'axios';
-import CardImageSample
-                                                           from './CardImageSample';
-import HorizontalCategoriesList
-                                                           from './HorizontalCategoriesList';
-import Image
-                                                           from 'react-native-image-progress';
+import React, { Component }                  from 'react';
+import { FlatList, View, Dimensions }        from 'react-native';
+import { categoryUrl, contentful, factsUrl } from './api/contentful';
+import axios                                 from 'axios';
+import FactCard                              from './FactCard';
+import HorizontalCategoriesList              from './HorizontalCategoriesList';
+import Image                                 from 'react-native-image-progress';
 import {
   NineCubesLoader,
-}                                                          from 'react-native-indicator';
+}                                            from 'react-native-indicator';
 
-class InfiniteFlatList
+class InfiniteFactsList
   extends Component {
 
   state = {
@@ -29,9 +26,10 @@ class InfiniteFlatList
 
   makeRemoteRequest = async () => {
     const { skip } = this.state;
-    const factsUrl = `/entries?access_token=fNNZsc2PHCgGHyNGDF51_xH-JtJAKrR8jH6CoeGh7O0&content_type=curiozitati&limit=10&skip=${ skip }`;
-
-    await contentful.get( factsUrl ).then( res => {
+    await contentful.get(
+      this.props.main ? factsUrl( skip ) : categoryUrl( this.props.categoryId,
+        skip,
+      ) ).then( res => {
       this.setState( {
         data      : [...this.state.data, ...res.data.items],
         totalFacts: res.data.total,
@@ -64,7 +62,7 @@ class InfiniteFlatList
     if (this.state.loading) {
       return <View
         style={ {
-          flex          : 1,
+          marginTop     : Dimensions.get( 'window' ).height / 2 - 100,
           display       : 'flex',
           justifyContent: 'center',
           alignItems    : 'center',
@@ -74,10 +72,11 @@ class InfiniteFlatList
 
     return (
       <FlatList
-        ListHeaderComponent={
-          <HorizontalCategoriesList navigation={ this.props.navigation } /> }
+        ListHeaderComponent={ this.props.main &&
+        <HorizontalCategoriesList navigation={ this.props.navigation } /> }
         data={ this.state.data }
-        renderItem={ ({ item }) => <CardImageSample
+        renderItem={ ({ item }) => <FactCard
+          categoryScreen={ !this.props.main }
           navigation={ this.props.navigation }
           categoria={ item.fields.categoria[0] }
           id={ item.fields.imagine.sys.id }
@@ -97,12 +96,15 @@ class InfiniteFlatList
             display       : 'flex',
             justifyContent: 'center',
             alignItems    : 'center',
-            marginVertical: 30
+            marginVertical: 30,
           } }
-        ><NineCubesLoader size={15} color="#FFC75F" /></View> }
+        ><NineCubesLoader
+          size={ 15 }
+          color="#FFC75F"
+        /></View> }
       />
     );
   }
 }
 
-export default InfiniteFlatList;
+export default InfiniteFactsList;

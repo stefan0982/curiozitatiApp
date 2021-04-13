@@ -22,6 +22,7 @@ import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
 
 
 export default ({ id, data, categoria, navigation, categoryScreen }) => {
+
   const [modal, setModal] = useState( false );
   const [imageLoading, setImageLoading] = useState( false );
   const [description, setDescription] = useState( '' );
@@ -33,6 +34,7 @@ export default ({ id, data, categoria, navigation, categoryScreen }) => {
   const [categoryAvatarLoading, setCategoryAvatarLoading] = useState(true);
 
   const [imgUrl, setImgUrl] = useState( '' );
+
   const linkSingleAsset = `/assets/${ id }?access_token=fNNZsc2PHCgGHyNGDF51_xH-JtJAKrR8jH6CoeGh7O0`;
 
   const getSingleAsset = () => {
@@ -161,9 +163,10 @@ export default ({ id, data, categoria, navigation, categoryScreen }) => {
             shareImage();
           } }
           style={ ({ pressed }) => [
+            styles.button,
             {
               backgroundColor: pressed ? '#eceff1' : 'white',
-            }, styles.button,
+            },
           ] }
         >
           { ({ pressed }) => (
@@ -225,8 +228,7 @@ export default ({ id, data, categoria, navigation, categoryScreen }) => {
         <View style={ { marginTop: 10 } }>
           <Text
             style={ { color: '#333' } }
-          >{ formatDistanceToNowStrict( new Date( data ), { locale: ro } ) } în
-                                                                             urmă</Text>
+          >{ formatDistanceToNowStrict( new Date( data ), { locale: ro } ) } în urmă</Text>
         </View>
       </View>
 
@@ -304,6 +306,10 @@ const styles = StyleSheet.create( {
     elevation      : 5,
   },
   button              : {
+    height: 35,
+    width: 35,
+    marginRight: 5,
+    borderRadius: 4,
   },
   readMore            : {
     fontSize: 14,

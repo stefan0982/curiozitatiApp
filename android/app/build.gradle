@@ -8,12 +8,12 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
-def enableSeparateBuildPerCPUArchitecture = true
+def enableSeparateBuildPerCPUArchitecture = false
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 def jscFlavor = 'org.webkit:android-jsc:+'
 
