@@ -8,7 +8,6 @@ import InfiniteFactsList              from '../InfiniteFactsList';
 const CategoryScreen = ({ route }) => {
   const { category, categoryId } = route.params;
 
-
   return (
     <SafeAreaView>
       <InfiniteFactsList main={false} categoryId={ categoryId } />

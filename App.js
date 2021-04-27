@@ -1,119 +1,94 @@
-import 'react-native-gesture-handler';
-import React, { useCallback }             from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Image,
-  Pressable,
-  Linking,
-  Alert,
-  StyleSheet,
-}                                         from 'react-native';
-import MainScreen
-                                          from './components/screens/MainScreen';
-import { NavigationContainer }            from '@react-navigation/native';
-import { createStackNavigator }           from '@react-navigation/stack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import CategoryScreen
-                                          from './components/screens/CategoryScreen';
+import 'react-native-gesture-handler'
+import React, { useCallback, useRef } from 'react'
+import { Image }                      from 'react-native'
+import MainScreen                     from './components/screens/MainScreen'
+import { NavigationContainer }        from '@react-navigation/native'
+import { createBottomTabNavigator }   from '@react-navigation/bottom-tabs'
+import { createStackNavigator }       from '@react-navigation/stack'
+import { SafeAreaProvider }           from 'react-native-safe-area-context'
+import CategoryScreen                 from './components/screens/CategoryScreen'
+import OpenWebUrl                     from './components/OpenWebUrl'
+import SearchScreen                   from './components/screens/SearchScreen'
+import MainScreenStack
+                                      from './components/screens/stacks/MainScreenStack'
+import SavedScreen                    from './components/screens/SavedScreen'
+import { Provider }                   from 'react-redux'
+import { PersistGate }                from 'redux-persist/integration/react'
+import { store, persistor }           from './components/store/store'
 
-const Stack = createStackNavigator();
-
-const OpenURLButton = ({ url, children }) => {
-  const handlePress = useCallback( async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL( url );
-
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web
-      // link should be opened by some browser in the mobile
-      await Linking.openURL( url );
-    }
-    else {
-      Alert.alert( `Nu s-a putut deschide: ${ url }` );
-    }
-  }, [url] );
-
-  return <Pressable
-    onPress={ handlePress }
-    style={ ({ pressed }) => [
-      {
-        backgroundColor: pressed ? '#eceff1' : 'white',
-      }, styles.button,
-    ] }
-  >
-    { children }
-  </Pressable>;
-};
+const Tab = createBottomTabNavigator()
 
 const App = () => {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Curiozitati"
-            component={ MainScreen }
-            options={ ({ route }) => (
-              {
-                title: 'Curiozități',
-              }
-            ) }
-          />
-          <Stack.Screen
-            name="Category"
-            component={ CategoryScreen }
-            options={ ({ route }) => (
-              {
-                title      : route.params.category,
-                headerRight: () => (
-                  <View
-                    style={ {
-                      display      : 'flex',
-                      flexDirection: 'row',
-                    } }
-                  >
-                    <OpenURLButton url={ 'https://www.instagram.com/curiozitati.app/' }>
-                      <Image
-                        source={ require( './assets/ig.png' ) }
-                        style={ styles.img }
-                      />
-                    </OpenURLButton>
-                    <OpenURLButton url={ 'https://curiozitati.app' }>
-                      <Image
-                        source={ require( './assets/web.png' ) }
-                        style={ styles.img }
-                      />
-                    </OpenURLButton>
-                  </View>
-                ),
-              }
-            ) }
-          />
-        </Stack.Navigator>
+      <Provider store={ store }>
+        <PersistGate
+          loading={ null }
+          persistor={ persistor }
+        >
 
-      </NavigationContainer>
+
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={ ({ route }) => (
+                {
+                  tabBarIcon: ({
+                    focused,
+                    color,
+                    size,
+                  }) => {
+                    let iconName
+
+                    if (route.name === 'Home') {
+                      iconName = focused ? require( './assets/home.png' )
+                        : require( './assets/home-gray.png' )
+                    }
+                    else if (route.name === 'Cauta') {
+                      iconName = focused ? require(
+                        './assets/search-active.png' ) : require(
+                        './assets/search-grey.png' )
+                    }
+                    else if (route.name === 'Saved') {
+                      iconName = focused ? require( './assets/saved.png' )
+                        : require( './assets/save-gray.png' )
+                    }
+
+                    // You can return any component that you like here!
+                    return <Image
+                      source={ iconName }
+                      style={ {
+                        height: 26,
+                        width : 26,
+                      } }
+                    />
+                  },
+                }
+              ) }
+              tabBarOptions={ {
+                activeTintColor: 'tomato',
+                inactiveTintColor: 'gray',
+                showLabel: false,
+              } }
+            >
+              <Tab.Screen
+                name="Home"
+                component={ MainScreenStack }
+              />
+              <Tab.Screen
+                name="Cauta"
+                component={ SearchScreen }
+              />
+              <Tab.Screen
+                name="Saved"
+                component={ SavedScreen }
+              />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     </SafeAreaProvider>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create( {
-  button: {
-    height      : 35,
-    width       : 35,
-    marginRight : 10,
-    marginLeft  : -5,
-    borderRadius: 4,
-  },
-  img   : {
-    width    : 25,
-    height   : 25,
-    alignSelf: 'center',
-    marginTop: 5,
-  },
-} );
-
-export default App;
+export default App

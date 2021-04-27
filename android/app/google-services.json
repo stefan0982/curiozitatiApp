@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "460498643008",
+    "project_id": "curiozitatiapp",
+    "storage_bucket": "curiozitatiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460498643008:android:ecea3cc0e5529f600fd7a5",
+        "android_client_info": {
+          "package_name": "com.curiozitati"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460498643008-vjte9t9aljbjd822ceajq5ppvludit1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.curiozitati",
+            "certificate_hash": "066184d4c6174a04d09d86f877c72e05ceb0a2c4"
+          }
+        },
+        {
+          "client_id": "460498643008-0o4mm3m1lgdn6d55qnvmsj37u5i1s6in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJEci26-zZMPYBGlzCmyZHztK9AS_a3Zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460498643008-0o4mm3m1lgdn6d55qnvmsj37u5i1s6in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
